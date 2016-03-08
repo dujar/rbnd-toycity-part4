@@ -40,4 +40,8 @@ class Udacidata
     num == -1 ? all[-1] : all[(-num)..-1].each{|product| product}
   end
 
+  def self.find number_id
+    all[number_id-1]
+  end
+
 end
