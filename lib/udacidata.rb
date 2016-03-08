@@ -19,7 +19,22 @@ class Udacidata
         csv << record 
       end
     end
-      
     object
   end
+
+  def self.all
+    array_of_products = []
+    CSV.foreach(@data_path) do |row|
+      if row[0] != "id"
+        array_of_products << new(id: row[0].to_i, brand: row[1], name: row[2], price: row[3])
+      end
+    end
+    return array_of_products
+  end
+  
+  def self.first num = 1
+    num == 1 ? all[0] : all[0..num-1].each{|product| product}
+  end
+
+
 end
