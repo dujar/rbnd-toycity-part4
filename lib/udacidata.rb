@@ -36,5 +36,8 @@ class Udacidata
     num == 1 ? all[0] : all[0..num-1].each{|product| product}
   end
 
+  def self.last num = -1
+    num == -1 ? all[-1] : all[(-num)..-1].each{|product| product}
+  end
 
 end
