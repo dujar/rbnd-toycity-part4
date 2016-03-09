@@ -41,12 +41,19 @@ class Udacidata
   end
 
   def self.find number_id
-    all[number_id-1]
+    record = all[number_id-1] 
+    return record
+    unless record 
+    fail ToyCityErrors::ProductNotFoundError, "Product :#{number_id} does not exist" 
+    end
   end
 
   def self.destroy id_destroy
     all_new = all
-    deleted_product = all.delete_at(id_destroy-1)
+    record = all.delete_at(id_destroy-1)
+    unless record 
+    fail ToyCityErrors::ProductNotFoundError, "Product :#{number_id} does not exist" 
+    end
     CSV.open(@data_path, "wb") do |row|
       row << ["id", "brand", "product", "price"]
     end
@@ -57,7 +64,7 @@ class Udacidata
         end
       end
     end
-    deleted_product
+    record
   end
 
   def self.find_by_brand brand_name
@@ -79,17 +86,12 @@ class Udacidata
 
   def update opts = {}
     @data_path = File.dirname(__FILE__) + "/../data/data.csv"
-    puts @data_path
     recorded = {id: id, brand: brand, name: name, price: price}
     opts.each_pair{|k,v| recorded[k] = v}#update de recorded hash
     into_array = recorded.to_a.map{|e| e[1].to_s}#will provide correct array of updated product
-    puts into_array.inspect
     csv = CSV.read(@data_path)
-    puts csv.inspect
     csv.select!{|a,b,c,d| a != id.to_s}
-    puts csv.inspect
     csv.insert(id,into_array)
-    puts csv.inspect
     CSV.open(@data_path, "wb") do |row|
     csv.each do |product|
          row << product
