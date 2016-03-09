@@ -9,18 +9,12 @@ String.create_colors
   end
   
   def print_report object
-      report = "#=> Average Price: $ #{average_price(object)} \n"
-      report <<  "Inventory by #{"Brand".red}:\n"
-      count_by_brand(object).each_pair do |k,v|
-        report << "   -#{k.red}: #{v.to_s.blue} \n"
-      end
-      puts report.class
-      report <<  "Inventory by #{"Name".red}:\n"
-      count_by_name(object).each_pair do |k,v|
-        report << "   -#{k.red}: #{v.to_s.blue} \n"
-         
-      end
-      report
+      print "#=> Average Price: $ #{average_price(object)} \n"
+      "Inventory by Brand:\n" +
+      "#{count_by_brand(object).map{ |k,v| "   -#{k}: #{v} \n"}.join}"+
+      
+      "Inventory by Name:\n"+
+      "#{count_by_name(object).map{ |k,v| "   -#{k}: #{v} \n"}.join}"
   end
 
   def count_by_brand object

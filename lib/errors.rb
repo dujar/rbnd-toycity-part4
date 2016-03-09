@@ -4,6 +4,9 @@ module ToyCityErrors
   class ProductNotFoundError < StandardError
 
   end
+  
+  class NoDataAvailableError < StandardError
+  end
 
 end
 

@@ -4,7 +4,10 @@ require 'csv'
 
 class Udacidata
   # Your code goes here!
+  create_finder_methods('brand','name')
+
   def self.create opts = {}
+
     @data_path = File.dirname(__FILE__) + "/../data/data.csv"
     object = new(id: opts[:id], brand: opts[:brand], name: opts[:name], price: opts[:price])
 ####whether object id is a match in data.csv
@@ -23,7 +26,11 @@ class Udacidata
   end
 
   def self.all
+    @data_path = File.dirname(__FILE__) + "/../data/data.csv"
     array_of_products = []
+    if CSV.read(@data_path).size == 1
+      raise ToyCityErrors::NoDataAvailableError, "No data available buddy"
+    end
     CSV.foreach(@data_path) do |row|
       if row[0] != "id"
         array_of_products << new(id: row[0].to_i, brand: row[1], name: row[2], price: row[3])
@@ -52,7 +59,7 @@ class Udacidata
     all_new = all
     record = all.delete_at(id_destroy-1)
     unless record 
-    fail ToyCityErrors::ProductNotFoundError, "Product :#{number_id} does not exist" 
+    fail ToyCityErrors::ProductNotFoundError, "Product :#{id_destroy} does not exist" 
     end
     CSV.open(@data_path, "wb") do |row|
       row << ["id", "brand", "product", "price"]
@@ -67,13 +74,13 @@ class Udacidata
     record
   end
 
-  def self.find_by_brand brand_name
-    all.select{|product| product.brand == brand_name}.first
-  end
+  #def self.find_by_brand brand_name
+  #  all.select{|product| product.brand == brand_name}.first
+  #end
 
-  def self.find_by_name product_name
-    all.select{|product| product.name == product_name}.first
-  end
+  #def self.find_by_name product_name
+  #  all.select{|product| product.name == product_name}.first
+  #end
 
   def self.where opts = {}
     return all.select{|product| product.brand == opts[:brand]||product.name == opts[:name] }
