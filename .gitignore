@@ -1,0 +1,9 @@
+
+.DS_store
+*.csv
+# Ignore Vim backup files.
+*~
+# Ignore Vim swap files.
+*.swp
+*.swo
+*.swn
