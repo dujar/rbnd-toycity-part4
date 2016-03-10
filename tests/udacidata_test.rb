@@ -77,7 +77,7 @@ class TestUdacidata < MiniTest::Test
      product = Product.last
      assert_instance_of(Product, product)
    end
-  
+ 
    def test_last_method_returns_correct_product
      product = Product.last
      data = CSV.read(@data_path).drop(1)
@@ -159,10 +159,10 @@ class TestUdacidata < MiniTest::Test
      assert_equal(database_before.size, database_after.size)
    end
 
-  # The "teardown" method always runs after the tests are done
-  # "teardown" will delete the test database when tests are done
+#  # The "teardown" method always runs after the tests are done
+#  # "teardown" will delete the test database when tests are done
   def teardown
     File.delete(@data_path)
   end
-
+#
 end
