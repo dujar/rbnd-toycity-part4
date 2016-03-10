@@ -43,7 +43,7 @@ class Udacidata
 
   def self.find number_id
     record = self.all.reject{|product| product.id != number_id}
-    unless record 
+    if record.empty? 
     fail ToyCityErrors::ProductNotFoundError, "Product :#{number_id} does not exist" 
     end
     return record.first
@@ -51,9 +51,6 @@ class Udacidata
 
   def self.destroy id_destroy
     record = self.find(id_destroy)
-    unless record 
-    fail ToyCityErrors::ProductNotFoundError, "Product :#{id_destroy} does not exist" 
-    end
 #array of new data to register in database
     all_new = all.reject{|product| product.id == id_destroy}
     CSV.open(@@data_path, "wb") do |row|
